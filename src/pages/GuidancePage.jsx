@@ -46,7 +46,7 @@ export default function GuidancePage() {
                     : "text-white hover:bg-blue-700"
                 }`}
               >
-                 Guidance IA
+                 SET-GUIDE IA
               </button>
               <button
                 onClick={() => setActiveSection("changement")}
@@ -79,23 +79,26 @@ export default function GuidancePage() {
           </div>
 
           {/* Page Content */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="max-w-4xl mx-auto w-full flex flex-col py-8 px-4">
+          <div className="flex-1 min-h-0 overflow-y-auto p-6">
+            <div className="max-w-5xl mx-auto w-full flex flex-col flex-1 min-h-full">
             {activeSection === "accueil" ? (
-              <div className="flex items-center justify-center flex-1">
-                <div className="bg-gradient-to-br from-blue-900/95 to-blue-800/95 backdrop-blur-sm rounded-3xl shadow-2xl p-2 sm:p-16 text-center max-w-3xl">
-                  <div className="mt-8">
+              <div className="flex flex-1 items-center justify-center min-h-full">
+                <div className="bg-gradient-to-br from-blue-900/95 to-blue-800/95 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-16 lg:p-20 text-center max-w-5xl w-full min-h-[420px] flex flex-col items-center justify-center gap-6">
+                  <div className="mt-4">
                     <h2 className="text-4xl font-bold text-white mb-3">
                       Bienvenue dans SET-Guide
                     </h2>
-                    <p className="text-xl text-blue-100">
+                    <p className="text-xl text-blue-100 mb-3">
                       Votre Système de guidance pédagogique
+                    </p>
+                    <p className="text-xl text-blue-100">
+                      En quoi puis-je vous aider aujourd'hui ?
                     </p>
                   </div>
                   
                   <button
                     onClick={() => setActiveSection("guidance")}
-                    className="mt-12 bg-white text-blue-900 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
+                    className="mt-6 bg-white text-blue-900 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
                   >
                     Commencer →
                   </button>
