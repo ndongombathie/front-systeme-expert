@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <text x="50" y="200" font-family="Arial, sans-serif" font-size="80" font-weight="bold">
+    <tspan fill="#FF8C00">SET</tspan><tspan fill="#1E40AF">-Guide</tspan>
+  </text>
+  <text x="50" y="240" font-family="Arial, sans-serif" font-size="18" fill="#666">
+    Système de guidance pédagogique de l'UFR SET
+  </text>
+</svg>
