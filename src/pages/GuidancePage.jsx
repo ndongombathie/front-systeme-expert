@@ -6,6 +6,7 @@ import ResultatGuidance from "../components/ResultatGuidance";
 import SemestreSelector from "../components/SemestreSelector";
 import logoSetGuide from "../assets/set-guide-logo.svg";
 import logoUniv from "../assets/logo-univ.png";
+import pdfFile from "../assets/La formation de cadres moyens et supérieurs dans le domaine des sciences et technologies.pdf";
 
 export default function GuidancePage() {
   const [filiere, setFiliere] = React.useState("");
@@ -58,6 +59,16 @@ export default function GuidancePage() {
               >
                  Changement de Filière
               </button>
+              <button
+                onClick={() => setActiveSection("infos")}
+                className={`w-full text-left px-4 py-3 rounded-lg transition-colors font-medium ${
+                  activeSection === "infos"
+                    ? "bg-white text-blue-900"
+                    : "text-white hover:bg-blue-700"
+                }`}
+              >
+                  Infos Pratiques
+              </button>
             </nav>
           </div>
         </div>
@@ -108,7 +119,7 @@ export default function GuidancePage() {
               <div className="flex flex-col flex-1 overflow-hidden">
                 <div className="text-center mb-10">
                   <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                    {activeSection === "guidance" ? "Guidance Pédagogique" : "Changement de Filière"}
+                    {activeSection === "guidance" ? "Guidance Pédagogique" : activeSection === "changement" ? "Changement de Filière" : "Infos Pratiques"}
                   </h1>
                   <p className="text-gray-600 font-medium">UFR SET</p>
                 </div>
@@ -128,6 +139,14 @@ export default function GuidancePage() {
 
                       <ResultatGuidance resultat={resultat} />
                     </>
+                  ) : activeSection === "infos" ? (
+                    <div className="w-full h-full min-h-[700px]">
+                      <iframe
+                        src={pdfFile}
+                        className="w-full h-full min-h-[700px] rounded-lg border-0"
+                        title="Infos Pratiques PDF"
+                      />
+                    </div>
                   ) : (
                     <div className="text-center py-12">
                       <h2 className="text-3xl font-bold text-gray-900 mb-4">
