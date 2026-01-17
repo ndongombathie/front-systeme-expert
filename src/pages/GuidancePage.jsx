@@ -67,7 +67,7 @@ export default function GuidancePage() {
                     : "text-white hover:bg-blue-700"
                 }`}
               >
-                  Infos Pratiques
+                  Informations Générales
               </button>
             </nav>
           </div>
