@@ -15,6 +15,38 @@ export default function GuidancePage() {
   const [resultat, setResultat] = React.useState(null);
   const [activeSection, setActiveSection] = React.useState("accueil");
 
+  // Pour la section changement de filière
+  const [filiereActuelle, setFiliereActuelle] = React.useState("");
+  const [filiereCible, setFiliereCible] = React.useState("");
+  const [niveauChangement, setNiveauChangement] = React.useState("");
+  const [resultatChangement, setResultatChangement] = React.useState(null);
+  const [chargement, setChargement] = React.useState(false);
+
+  const handleChangementFiliere = async (e) => {
+    e.preventDefault();
+    setChargement(true);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/change_filere", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          filiere_actuelle: filiereActuelle,
+          filiere_cible: filiereCible,
+          niveau: niveauChangement,
+        }),
+      });
+      const data = await response.json();
+      setResultatChangement(data);
+    } catch (error) {
+      console.error("Erreur:", error);
+      setResultatChangement({ error: "Erreur lors de la requête" });
+    } finally {
+      setChargement(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100">
       <div className="flex">
@@ -143,20 +175,78 @@ export default function GuidancePage() {
                     <div className="w-full h-full min-h-[700px]">
                       <iframe
                         src={pdfFile}
-                        className="w-full h-full min-h-[700px] rounded-lg border-0"
+                        className="w-full h-full min-h-[800px] rounded-lg border-0"
                         title="Infos Pratiques PDF"
                       />
                     </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                        Bienvenue sur la page Changement de Filière
-                      </h2>
-                      <p className="text-gray-600 text-lg">
-                        Cette fonctionnalité sera bientôt disponible.
-                      </p>
+                  ) : activeSection === "changement" ? (
+                    <div className="flex flex-col gap-8">
+                      <form onSubmit={handleChangementFiliere} className="space-y-6">
+                        <FiliereSelector filiere={filiereActuelle} setFiliere={setFiliereActuelle} label="Filière Actuelle" />
+                        
+                        {/* <div>
+                          <label className="block text-gray-700 font-semibold mb-2">
+                            Filière Cible
+                          </label>
+                          <input
+                            type="text"
+                            value={filiereCible}
+                            onChange={(e) => setFiliereCible(e.target.value)}
+                            placeholder="Ex: Génie Civil"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                          />
+                        </div> */}
+                        
+                        <NiveauSelector niveau={niveauChangement} setNiveau={setNiveauChangement} />
+                        
+                        <button
+                          type="submit"
+                          disabled={chargement}
+                          className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400"
+                        >
+                          {chargement ? "Vérification en cours..." : "Vérifier la Possibilité de Changement"}
+                        </button>
+                      </form>
+
+                      {resultatChangement && (
+                        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200 shadow-lg">
+                          <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                            Résultat du Changement de Filière
+                          </h3>
+                          
+                          {Array.isArray(resultatChangement) && resultatChangement.length > 0 ? (
+                            <div className="space-y-4">
+                              {resultatChangement.map((critere, index) => (
+                                <div key={index} className="bg-white rounded-xl p-5 border-l-4 border-blue-500 shadow-md hover:shadow-lg transition-shadow">
+                                  <div className="flex items-start gap-3">
+                                    <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                      <span className="text-blue-600 font-bold text-sm">{index + 1}</span>
+                                    </div>
+                                    <p className="text-gray-700 leading-relaxed pt-1">
+                                      {critere}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : resultatChangement.error ? (
+                            <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+                              <p className="text-red-700 font-semibold">
+                                Erreur: {resultatChangement.error}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="bg-green-50 border border-green-200 rounded-xl p-6">
+                              <p className="text-green-700 font-semibold">
+                                Pas de critères supplémentaires - Changement possible!
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
             )}
